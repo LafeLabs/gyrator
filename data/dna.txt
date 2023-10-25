@@ -4,8 +4,10 @@
         "fork.html",
         "forkdestroyer.html",
         "geometron.js",
+        "gyrator-12.html",
         "gyrator-22.html",
         "gyrator-64.html",
+        "gyrator-geometron.html",
         "gyrator-hex.html",
         "gyrator-octal.html",
         "hypercube.html",
@@ -29,8 +31,7 @@
         "trashrobot.html",
         "washboard.html",
         "webdestroyer.html",
-        "webeditor.html",
-        "whitenoise.html"
+        "webeditor.html"
     ],
     "data": [
         "dna.txt",
