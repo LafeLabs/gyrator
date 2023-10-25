@@ -30,6 +30,11 @@
 <body>    
 <a href = "index.html" id = "homelink">home</a>
 
+<table id = "actiontable">
+    <tr id = "actionrow">
+    </tr>
+</table>
+
 <input id = "hebrewinput"/>
 
 <div id = "unicode"><canvas id = "letter"></canvas></div>
@@ -49,34 +54,34 @@ first, getting calibrated frequencies in an fft...
 
 */
 
-pixelcube = [
-    "0500:0406,0406,0403,0407,0405,0404,0407,0336,0336,0336,0336,0330,0330,0347,0337,0337,0337,0337,0702,0711,",
-    "0501:0406,0406,0402,0407,0405,0404,0407,0336,0336,0336,0336,0331,0331,0347,0337,0337,0337,0337,0703,0711,",
-    "0502:0406,0406,0401,0407,0405,0404,0407,0336,0336,0336,0336,0332,0332,0347,0337,0337,0337,0337,0701,0711,",
-    "0503:0406,0406,0400,0407,0405,0404,0407,0336,0336,0336,0336,0333,0333,0347,0337,0337,0337,0337,0700,0711,",
-    "0504:0406,0406,0403,0407,0407,0336,0336,0336,0336,0330,0330,0337,0337,0337,0337,0702,",
-    "0505:0406,0406,0402,0407,0407,0336,0336,0336,0336,0331,0331,0337,0337,0337,0337,0703,",
-    "0506:0406,0406,0401,0407,0407,0336,0336,0336,0336,0332,0332,0337,0337,0337,0337,0701,",
-    "0507:0406,0406,0400,0407,0407,0336,0336,0336,0336,0333,0333,0337,0337,0337,0337,0700,",
-    "0220:0350,0334,0351,0366,0335,0367,0350,0334,0351,",
-    "0221:0336,0336,0347,0337,0337,0330,"
-    ];
+
+cubeedits = [
+    "0221:0350,0334,0351,0366,0335,0367,0350,0334,0351,",
+    "01221:0333,0200,0330,0332,0336,0331,0333,0220,0331,0333,0337,",
+    "0222:0336,0336,0347,0337,0337,0330,",
+    "01222:0333,0200,0336,0330,0332,0336,0331,0337,0221,0221,0331,0336,0333,0331,0331,0331,0333,0337,0337,"
+];
+
 
 actionset = [0322,0323,0324,0325,0326,0327,0500,0501,0502,0503,0504,0505,0506,0507];    
+
 
     
 GVM1 = new GVM(document.getElementById("letter"),700,700);
 GVM1.importbytecode(hypercube);
-GVM1.importbytecode(pixelcube);
+GVM1.importbytecode(cubeedits);
 
-GVM1.style.line0 = 1;
-GVM1.style.line2 = 1;
-GVM1.style.line6 = 1;
-GVM1.style.line7 = 1;
-GVM1.style.line5 = 1;
-GVM1.style.line1 = 1;
 
-GVM1.glyph = "0300,"
+GVM1.style.line1 = 2;
+GVM1.style.line1 = 2;
+GVM1.style.line2 = 2;
+GVM1.style.line3 = 2;
+GVM1.style.line4 = 2;
+GVM1.style.line5 = 2;
+GVM1.style.line6 = 2;
+GVM1.style.line7 = 2;
+
+GVM1.glyph = "0207,";
 GVM1.drawGlyph(GVM1.glyph);
 
         
@@ -88,10 +93,8 @@ xgain = 6;
 oscon = false;
 
 glyph = "";
-ascii = "";
 unicode = "";
 indexarray = [];
-asciimax = 8;
 
 colorwheel = [];
 angles = [];
@@ -153,6 +156,23 @@ for(var index = 0;index < n;index++){
     angles.push(0);
 }
 
+cansize = 50;
+for(var index = 0;index < actionset.length;index++){
+    var newtd = document.createElement("TD");
+    var newcan = document.createElement("CANVAS");
+    newcan.style.borderColor = colorwheel[index];
+    document.getElementById("actionrow").appendChild(newtd);
+    newtd.appendChild(newcan);
+    var newGVM = new GVM(newcan,cansize,cansize);
+    newGVM.style.line0 = 4;
+    newGVM.unit = cansize/2;
+    newGVM.style.color0 = colorwheel[index];
+    newGVM.importbytecode(hypercube);
+    newGVM.importbytecode(cubeedits);
+    newGVM.drawGlyph("0300,0331,0332,0337,");
+    newGVM.action(01000 + actionset[index]);
+}
+
 
 function setup() {
 
@@ -207,11 +227,6 @@ function draw() {
   text("n  = " + n.toString(),10,120);
 
 
-//  text("base 22 glyph = " + glyph,10,150);
-//  text("ascii glyph = " + ascii,10,180);
-
-//  text("12th point freq = " + (12*binFreq).toString()  + " Hz",10,150);
-  //text("24th point freq = " + (24*binFreq).toString()  + " Hz",10,180);
 
   noFill();
   beginShape();
@@ -260,7 +275,6 @@ function draw() {
       circle((index + 1.5)*binsize*xgain,map(power, 0, 255, height, 0),50);
       if(-angles[index] > 2*Math.PI){
           glyph = (index).toString(n) + glyph;
-          document.getElementById("hebrewinput").value = glyph;
           indexarray.push(index);
           addglyph(index);
 
@@ -269,10 +283,7 @@ function draw() {
   //            angles[zeroindex] = 0;
     //      }
       }
-      if(ascii.length > asciimax){
-          ascii = "";
-          glyph = "";
-      }
+
       noFill();
       strokeWeight(1);
 //      text(((index + 1)*binsize*binFreq).toString() + " Hz-\n" + ((index + 2)*binsize*binFreq).toString() + " Hz",(index + 0.6)*binsize*xgain,height/3);
@@ -303,20 +314,24 @@ function addglyph(localindex){
 //    GVM1.style.color0 = colorwheel[localindex];
   //  GVM1.style.fill0 = colorwheel[localindex];
 //    GVM1.drawGlyph(hebrewicons[localindex]);
-    GVM1.glyph += actionset[localindex].toString(8) + ",";
+    GVM1.cursorAction(actionset[localindex]);
+    //GVM1.glyph += actionset[localindex].toString(8) + ",";
+
+    document.getElementById("hebrewinput").value = "0" + (actionset[localindex]).toString(8) + "," + document.getElementById("hebrewinput").value;
+    
     GVM1.drawGlyph(GVM1.glyph);
 
     if(GVM1.x > GVM1.width){
-        GVM1.glyph += "0300,";
+        GVM1.glyph = "0207,";
     }
     if(GVM1.x < 0){
-        GVM1.glyph += "0300,";
+        GVM1.glyph = "0207,";
     }
     if(GVM1.y < 0){
-        GVM1.glyph += "0300,";
+        GVM1.glyph = "0207,";
     }
     if(GVM1.y > GVM1.height){
-        GVM1.glyph += "0300,";
+        GVM1.glyph = "0207,";
     }
 
     var newspan  = document.createElement("span");
@@ -331,18 +346,15 @@ function addglyph(localindex){
     }
     
     var newGVM = new GVM(newcan,100,100);
-    newGVM.importbytecode(pixelcube);
-    newGVM.style.line0 = 2;
-    newGVM.style.color0 = localcolor;
-    newGVM.style.fill0 = localcolor;
-//    newGVM.action(01000 + actionset[localindex]);
+    newGVM.importbytecode(hypercube);
+    newGVM.importbytecode(cubeedits);
     
-// tarot
-
-    var newspan2  = document.createElement("span");
-    var newcan2 = document.createElement("canvas");
-    newspan2.appendChild(newcan2);
-    
+    newGVM.style.line0 = 4;
+    newGVM.unit = cansize/2;
+    newGVM.style.color0 = colorwheel[localindex];
+    newGVM.importbytecode(hypercube);
+    newGVM.drawGlyph("0300,0331,0332,0337,");
+    newGVM.action(01000 + actionset[localindex]);
 
     
 
@@ -440,6 +452,14 @@ qrcode = new QRCode(document.getElementById("qrcode"), {
         border:solid;
         border-width:30px;
         border-color:white;
+    }
+    #actiontable{
+        position:absolute;
+        top:200px;
+        left:0px;
+    }
+    #actiontable canvas{
+        border:solid;
     }
 </style>
 </body>
