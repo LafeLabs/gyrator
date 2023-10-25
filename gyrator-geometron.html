@@ -63,9 +63,11 @@ cubeedits = [
 ];
 
 
-actionset = [0322,0323,0324,0325,0326,0327,0500,0501,0502,0503,0504,0505,0506,0507];    
+//actionset = [0322,0323,0324,0325,0326,0327,0500,0501,0502,0503,0504,0505,0506,0507];    
+actionset = [0500,0501,0502,0503,0504,0505,0506,0507,0322,0323,0324,0325,0326,0327,];    
 
-
+//actionset = [0322,0323,0324,0325,0326,0327,0341,0330,0341,0331,0341,0332,0341,0333,];    
+//actionset = [0500,0501,0502,0503,];    
     
 GVM1 = new GVM(document.getElementById("letter"),700,700);
 GVM1.importbytecode(hypercube);
@@ -80,7 +82,7 @@ GVM1.style.line4 = 2;
 GVM1.style.line5 = 2;
 GVM1.style.line6 = 2;
 GVM1.style.line7 = 2;
-
+GVM1.unit = 40;
 GVM1.glyph = "0207,";
 GVM1.drawGlyph(GVM1.glyph);
 
@@ -350,7 +352,7 @@ function addglyph(localindex){
     newGVM.importbytecode(cubeedits);
     
     newGVM.style.line0 = 4;
-    newGVM.unit = cansize/2;
+    newGVM.unit = newGVM.width/2;
     newGVM.style.color0 = colorwheel[localindex];
     newGVM.importbytecode(hypercube);
     newGVM.drawGlyph("0300,0331,0332,0337,");
@@ -395,15 +397,16 @@ qrcode = new QRCode(document.getElementById("qrcode"), {
     #unicode{
         position:absolute;
         top:10px;
-        left:40%;
+        left:20%;
         width:10em;
+        border:solid;
         font-family:Comic Sans MS;
         font-size:10em;
         
     }
     #hebrewinput{
         position:absolute;
-        right:430px;
+        right:45%;
         width:200px;
         top:10px;
         border:solid;
@@ -419,8 +422,8 @@ qrcode = new QRCode(document.getElementById("qrcode"), {
         top:10px;
         border:solid;
         overflow-x:scroll;
-        height:100px;
-        width:300px;
+        height:500px;
+        width:400px;
         border-radius:10px;
         border-width:5px;
         font-family:courier;
