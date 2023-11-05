@@ -2,30 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-
     <!--
 
-        EVERYTHING IS PHYSICAL
+        EVERYTHING IS PHYSICAL 
         EVERYTHING IS FRACTAL
         EVERYTHING IS RECURSIVE
-        NO MONEY
-        MO MINING
+        NO MONEY 
+        MO MINING 
         NO PROPERTY
         LOOK AT THE INSECTS
         LOOK AT THE FUNGI
         LANGUAGE IS HOW THE MIND PARSES REALITY
 
     -->
+        <title>GYRATOR</title>
 
-<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA4/D4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREREREREREREREREREREREREREREREREREREREREREQAQABEQEAAQEQEQERABEQAQEBARABERABEQEBAQEAAQERAQARABERAREBAREAERAQABEBEQEAAREREREREREREREREREREREREREREREREREREREREREREREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon">
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAZ4efAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREREREREREREREREREREREAAAAAAAAREQEREREREBERAREREREQEREBEAAAARAREQEQEREBEBERARAQAQEQEREBEBABARAREQEQEREBEBERARAAAAEQEREBERERERAREQEREREREBERAAAAAAAAEREREREREREREREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon">
 
 
     <!--Stop Google:-->
     <META NAME="robots" CONTENT="noindex,nofollow">
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.js"></script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-
+<!--geometron javascript library-->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="geometron.js"></script>
+    
+<!--
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script>
             MathJax.Hub.Config({
@@ -37,284 +40,241 @@
                 }
             });//			MathJax.Hub.Typeset();//tell Mathjax to update the math
         </script>
+-->
 
 </head>
-<body>    
+<body>
+    
+<img src = "https://upload.wikimedia.org/wikipedia/commons/8/82/Morchella_conica_1_beentree.jpg" id = "mainimage"/>
 
-<div id = "scrollscroll"></div>
 
-<div id  = "scrollsbox">
-    <input id = "scrollinput"/>
+<div id = "mainbox">
+    <canvas id = "maincanvas"></canvas>
 </div>
-<table id = "landscapelinks">
-    <tr>
-        <td class = "editlinks">
-            <a  id ="scrolleditorlink2" href = "scrolleditor.php">
-                <img src = "iconsymbols/edit.svg"/>
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td class = "editlinks">
-            <a href = "scrollset.html">
-                <img src = "iconsymbols/chaos.svg"/>
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td class = "editlinks">
-            <a href = "scrolldelete.html">
-                <img src = "iconsymbols/delete.svg"/>
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td class = "editlinks">
-            <a href = "fork.html">
-                <img src = "iconsymbols/fork.svg"/>
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td id = "modebutton" class= "button">
-            <img src = "iconsymbols/lightdark.svg"/>
-        </td>
-    </tr>
-    <tr>
-        <td id = "qrcode"></td>
-    </tr>
-</table>
 
-<table id = "portraitlinks">
-    <tr>
-        <td class = "editlinks">
-            <a id ="scrolleditorlink" href = "scrolleditor.php">
-                <img src = "iconsymbols/edit.svg"/>
-            </a>
-        </td>
-        <td class = "editlinks">
-            <a href = "scrollset.html">
-                <img src = "iconsymbols/chaos.svg"/>
-            </a>
-        </td>
-        <td class = "editlinks">
-            <a href = "scrolldelete.html">
-                <img src = "iconsymbols/delete.svg"/>
-            </a>
-        </td>
-        <td class = "editlinks">
-            <a href = "fork.html">
-                <img src = "iconsymbols/fork.svg"/>
-            </a>
-        </td>
-        <td id = "modebutton2" class= "button">
-            <img src = "iconsymbols/lightdark.svg"/>
-        </td>
-        <td id = "hidebutton" class= "button">
-            <img id = "hideicon" src = "iconsymbols/showmenu.svg"/>
-        </td>
+<div id = "feedscroll">
+    
+    <h1><a style = "color:blue;text-align:center;font-family:Comic Sans MS;margin:auto" href = "index.html">HOME</a></h1>
+    
+    <h1>Gyrator</h1>
+    
+    <div id = "qrcode"></div>
 
-        <td id = "qrcode2"></td>
-    </tr>
-</table>
+<p>
+    Gyrator.  
+</p>    
+
+</div>
 
 <script>
 
-if(innerWidth > innerHeight){
-    
-    document.getElementById("scrollscroll").style.width = (innerHeight - 35).toString() + "px";
-    document.getElementById("scrollscroll").style.left = (0.5*(innerWidth - innerHeight) - 25).toString() + "px";    
-    document.getElementById("scrollsbox").style.width = (0.5*(innerHeight - innerWidth)).toString() + "px";
-    document.getElementById("scrollsbox").style.left = (innerHeight + 0.5*(innerWidth - innerHeight)).toString() + "px";    
+document.getElementById("mainimage").src = "https://upload.wikimedia.org/wikipedia/commons/7/7a/Clavulina_cristata_sasata.JPG";
 
+pentagram = "0336,0336,0336,0336,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0337,0337,0337,0337,0337,0330,0336,0332,0337,0335,0223,0321,0340,0334,0336,0330,0335,0340,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0330,0322,0340,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0323,0330,0340,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0330,0340,0324,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0330,0325,0340,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0326,0330,0335,0340,0335,0335,0336,0330,0340,0334,0334,0330,0340,0334,0334,0340,0330,0340,0334,0334,0330,0340,0334,0334,0334,0335,0330,0337,0330,0334,0337,0337,0330,0334,0337,0337,0330,0334,0337,0337,0330,0335,0335,0337,0337,0330,0335,0337,0337,0321,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0334,0335,0201,0334,0334,";
+
+
+  
+  
+shapestack = [
+    "0220:0305,0311,0201,0335,0335,0201,0335,0335,0201,0335,0335,0201,0335,0335,0201,",
+    "0221:0220,0335,0350,0335,0336,0201,0335,0335,0201,0335,0335,0201,0335,0335,0201,0335,0335,0201,0335,0335,",
+    "0222:0221,0335,0330,0335,0335,0336,0335,",
+    "0223:0322,0222,0323,0222,0324,0222,0325,0222,0326,0222,0327,0222,0330,0335,0330,0335,0337,0337,0330,0335,0335,0335,0337,0330,0335,0335,0330,0337,0330,0335,0337,0337,0330,0335,0335,0335,0334,0334,0337,0337,0330,0335,0335,0335,0335,0337,0334,0331,0330,0337,0331,0337,0337,",
+    "01220:0333,0200,0336,0330,0332,0336,0331,0333,0337,0220,0335,0335,0336,0304,0337,0313,0336,0331,0333,0337,0337,",
+    "01221:0333,0200,0336,0336,0330,0332,0337,0221,0313,0335,0311,0337,0313,0304,0336,0331,0333,0337,0337,",
+    "01222:0333,0200,0336,0330,0336,0331,0332,0337,0222,0335,0335,0335,0335,0335,0335,0335,0334,0334,0334,0330,0335,0335,0337,0331,0335,0314,0311,0337,0313,0304,0336,0331,0333,0337,0337,",
+    "01223:0333,0200,0336,0330,0332,0336,0331,0333,0337,0223,0313,0304,0336,0331,0333,0337,0337,0320,",
+    "0240:0220,0336,0331,0333,0336,0321,0335,0342,0335,0335,0342,0335,0330,0330,0332,0332,0337,0337,",
+    "01240:0333,0200,0336,0330,0332,0210,0240,0211,0333,0331,0337,",
+    "0241:0220,0336,0321,0343,0332,0350,0335,0336,0342,0334,0334,0342,0335,0304,0337,0333,0337,",
+    "01241:0333,0200,0336,0332,0330,0210,0241,0211,0333,0331,0337,",
+    "0242:0220,0321,0336,0343,0333,0336,0350,0335,0342,0334,0334,0342,0335,0337,0304,0332,0337,",
+    "01242:0333,0200,0336,0330,0332,0210,0242,0211,0333,0331,0337,",
+    "0243:0220,0336,0331,0332,0336,0321,0343,0332,0350,0334,0336,0342,0335,0335,0342,0337,0334,0334,0335,0304,0332,0330,0330,0337,0337,0333,",
+    "01243:0333,0200,0336,0330,0332,0210,0243,0211,0333,0331,0337,",
+    "0244:0220,0336,0331,0333,0336,0321,0343,0333,0350,0336,0335,0342,0334,0334,0342,0335,0337,0304,0333,0330,0330,0337,0337,0332,",
+    "01244:0333,0200,0336,0330,0332,0210,0244,0211,0333,0331,0337,",
+    "0245:0210,0332,0332,0362,0335,0203,0203,0203,0203,0334,0203,0363,0332,0332,0331,0211,",
+    "01245:0333,0200,0336,0330,0332,0336,0245,0337,0333,0331,0337,",
+    "0246:0210,0332,0332,0335,0306,0336,0330,0335,0335,0335,0321,0362,0203,0335,0335,0203,0364,0331,0350,0335,0337,0366,0333,0333,0333,0333,0334,0334,0334,0334,0367,0335,0336,0342,0334,0334,0342,0330,0330,0330,0330,0335,0335,0335,0304,0337,0211,",
+    "01246:0333,0200,0336,0330,0332,0336,0246,",
+    "0247:0330,0332,0336,0332,0336,0221,0333,0333,0333,0222,0333,0333,0333,0223,0333,0333,0333,0225,0333,0331,0331,0331,0332,0332,0332,0332,0332,0332,0332,0332,0332,0332,0332,0332,0333,0333,0226,0331,0331,0331,0333,0333,0333,0333,0333,0333,0333,0333,0333,0333,0333,0333,0333,0330,0333,0330,0330,0333,0330,0331,0332,0332,0332,0332,0332,0332,0332,0332,0332,0332,0332,0332,0227,0333,0333,0333,0230,0333,0331,0331,0331,0331,0332,0332,0332,0330,0332,0332,0332,0332,0332,0332,0333,0333,0231,0333,0333,0333,0232,0331,0333,0330,0333,0333,0233,0333,0333,0333,0234,0330,0330,0332,0330,0332,0332,0337,0337,",
+    "01247:0333,0200,0336,0330,0332,0220,0336,0247,0337,0331,0333,0337,"
+  ];
+  
+
+
+if(innerWidth > innerHeight){
+    squaresize = innerHeight - 50;
+    document.getElementById("feedscroll").style.right =  squaresize.toString()+ "px";    
 }
 else{
-
-
-}
-
-mode = "dark";
-//mode = "light";
-
-
-scroll = "";
-rawhtml = "";
-var converter = new showdown.Converter();
-// for more on options see here:
-// https://github.com/showdownjs/showdown/wiki/Showdown-Options
-converter.setOption('literalMidWordUnderscores', 'true');
-converter.setOption('tables', 'true')
+    squaresize = innerWidth - 50;
     
-filename = "scrolls/home";
-loadscroll("scrolls/home");
-
-localfile = true;
-
-
-
-function loadscroll(scrollname){
-    filename = scrollname;
-    if(filename.substring(0,8) == "scrolls/" || filename == "README.md"){
-        localfile = true;
-    }
-    else{
-        localfile = false;
-    }
-    document.getElementById("scrolleditorlink").href = "scrolleditor.php?scroll=" + filename;
-    document.getElementById("scrolleditorlink2").href = "scrolleditor.php?scroll=" + filename;    
-
-    document.getElementById("scrollscroll").innerHTML = "";
-    document.getElementById("scrollscroll").style.display = "block";
-    var httpc666 = new XMLHttpRequest();
-    httpc666.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            scroll = this.responseText;
-            rawhtml = converter.makeHtml(scroll);
-            document.getElementById("scrollscroll").innerHTML = rawhtml;
-            convertscrollinks();
-            MathJax.Hub.Typeset();//tell Mathjax to update the math
-    //			MathJax.Hub.Typeset();//tell Mathjax to update the math
-        }
-    };
-    httpc666.open("GET", "fileloader.php?filename=" + scrollname, true);
-    httpc666.send();
-    //MathJax.Hub.Typeset();//tell Mathjax to update the math
+    document.getElementById("feedscroll").style.right =  "0px";    
+    document.getElementById("feedscroll").style.top = squaresize.toString() + "px";
 }
 
+document.getElementById("mainimage").style.width =  squaresize.toString()+ "px";    
 
-function convertscrollinks(){
-    links = document.getElementById("scrollscroll").getElementsByTagName("A");
-    for(var index = 0;index < links.length;index++){
-        if(links[index].href.includes("scrolls/") && !links[index].href.includes(".php")){
-            //console.log(links[index].href);
-            var newspan = document.createElement("SPAN");
-            newspan.innerHTML = links[index].innerHTML;
-            var dataspan = document.createElement("SPAN");
-            dataspan.className = "data";
-            dataspan.innerHTML  = "scrolls/" + links[index].href.split("scrolls/")[1];
-            newspan.appendChild(dataspan);
-            newspan.className = "scrolllink";
-            links[index].parentNode.insertBefore(newspan,links[index]);
-            links[index].style.display = "none";
-            
-            newspan.onclick = function(){
-                var localscroll = this.getElementsByClassName("data")[0].innerHTML;
-                loadscroll(localscroll);
-            }
-        }
-        if(links[index].href.includes("scroll(") && !links[index].href.includes(".php")){
-            //link format scroll(any url)
-            //console.log(links[index].href);
-            var newspan = document.createElement("SPAN");
-            newspan.innerHTML = links[index].innerHTML;
-            var dataspan = document.createElement("SPAN");
-            dataspan.className = "data";
-            dataspan.innerHTML  = links[index].href.split("scroll(")[1].split(")")[0];
-            newspan.appendChild(dataspan);
-            newspan.className = "scrolllink";
-            links[index].parentNode.insertBefore(newspan,links[index]);
-            links[index].style.display = "none";
-            
-            newspan.onclick = function(){
-                var localscroll = this.getElementsByClassName("data")[0].innerHTML;
-                loadscroll(localscroll);
-            }
-        }
+maincanvas = document.getElementById("maincanvas");
+var mainGVM = new GVM(maincanvas,squaresize,squaresize);
+mainGVM.importbytecode(hypercube);    
+mainGVM.importbytecode(shapestack);
+mainGVM.style.line0 = 4;
+mainGVM.style.line1 = 4;
+mainGVM.style.line2 = 4;
+mainGVM.style.line3 = 4;
+mainGVM.style.line4 = 4;
+mainGVM.style.line5 = 4;
+mainGVM.style.line6 = 4;
+mainGVM.style.line7 = 4;
 
-    }
-}
+mainGVM.x0 = squaresize*350/700;
+mainGVM.y0 = squaresize*516.54/700;
+mainGVM.unit = squaresize*345/700;
 
-document.getElementById("modebutton").onclick = function(){
-    modeswitch();
-}
-document.getElementById("modebutton2").onclick = function(){
-    modeswitch();
-}
+mainGVM.drawGlyph(pentagram);
 
+T = 16;//number of frames of period of oscillation, 8 frames for 3 Hz at 24 frames per second
 
-    
+T = 35  ;
 
-modeswitch();
-function modeswitch(){
-    if(mode == "dark"){
-        mode = "light";
-        document.body.style.backgroundColor = "#F8F0E3";
-        document.getElementById("scrollscroll").style.backgroundColor = "#F8F0E3";
-        document.getElementById("scrollscroll").style.color = "black";
+let osc, fft,osc2,osc3;
+oscon = false;
 
-        document.getElementById("scrollinput").style.color = "black";
-        document.getElementById("scrollinput").style.backgroundColor = "#F8F0E3";       
-        document.getElementById("scrollsbox").style.backgroundColor = "#F8F0E3";
-        document.getElementById("scrollsbox").style.color = "black";        
-    }
-    else{
-        mode = "dark";
-        document.body.style.backgroundColor = "#404040";
-        document.getElementById("scrollscroll").style.backgroundColor = "black";
-        document.getElementById("scrollscroll").style.color = "#00ff00";    
-        document.getElementById("scrollinput").style.color = "#303030";
-        document.getElementById("scrollinput").style.backgroundColor = "black";              
+ freq = 111;
+  freq2 = 80;
   
-        document.getElementById("scrollsbox").style.backgroundColor = "#303030";
-        document.getElementById("scrollsbox").style.color = "#00ff00";          
-                
+function setup() {
 
-    }
+  createCanvas(0.9*squaresize, 0.15*squaresize);    
+  osc = new p5.SinOsc(); // set frequency and type
+  osc.amp(1.0);
+  osc2 = new p5.SinOsc(); // set frequency and type
+  osc2.amp(1.0);
+  fft = new p5.FFT();
+  osc.start();
+  osc2.start();
+  osc.freq(freq);  
+  osc2.freq(freq2); 
+  
+}
+
+
+pulse = 1;
+
+frameIndex = 0;
+
+function draw(){
+
+  pulse = 1 + 0.25*Math.cos(2*Math.PI*frameIndex/T);
+    document.getElementById("mainimage").style.width =  (squaresize + 2*squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";    
+//    document.getElementById("maincanvas").style.width =  (squaresize + 2*squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";        
+    
+//    document.getElementById("mainimage").style.right =  ((-mouseX + 0.5*squaresize)  -squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";    
+    //document.getElementById("mainimage").style.top =  ((-mouseY) -squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";    
+        
+    document.getElementById("mainimage").style.right =  (-squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";    
+        document.getElementById("mainimage").style.top =  (-squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";            
+        
+        
+//    document.getElementById("mainbox").style.right =  (-squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";    
+  //  document.getElementById("mainbox").style.top =  (-squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";         
+        
+osc.amp(1 - 0.75*Math.cos(2*Math.PI*frameIndex/T));
+osc2.amp(1 - 0.75*Math.cos(2*Math.PI*frameIndex/T));
+
+
+//mainGVM.y0 = (1.5 - 0.5*Math.cos(2*Math.PI*frameIndex/T))*squaresize*516.54/700;
+
+//mainGVM.unit = (1.5 - 0.5*Math.cos(2*Math.PI*frameIndex/T))*squaresize*345/700;
+
+//mainGVM.drawGlyph(pentagram);
+
+
+  frameRate(24);
+  background("#9f8767");
+  strokeWeight(6);
+  frameIndex++;
+
 }
 
 
 
-scrolls = [];
+
+function mouseClicked() {
+  
+  if(!oscon){
+      osc.start();
+      osc2.start();
+
+  }
+  else{
+      osc.stop();
+      osc2.stop();
+  }
+  oscon = !oscon;
+    
+}
+
+
+
+upuploadImages = [];
 var httpc9 = new XMLHttpRequest();
-httpc9.onreadystatechange = function() {
+    httpc9.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-        scrolls = JSON.parse(this.responseText);
-        var newscrollbutton = document.createElement("P");
-        newscrollbutton.className = "boxlink";
-        newscrollbutton.innerHTML = "README.md";
-        document.getElementById("scrollsbox").appendChild(newscrollbutton);
-        newscrollbutton.onclick = function(){
-            currentFile = this.innerHTML;
-                loadscroll(currentFile);
-        }        
-        for(var index = 0;index < scrolls.length;index++) {
-            var newscrollbutton = document.createElement("P");
-            newscrollbutton.className = "boxlink";
-            newscrollbutton.innerHTML = "scrolls/" + scrolls[index];
-            document.getElementById("scrollsbox").appendChild(newscrollbutton);
-            newscrollbutton.onclick = function(){
-                currentFile = this.innerHTML;
-                loadscroll(currentFile);
-            }
+        upuploadImages = JSON.parse(this.responseText);
+        for(var index = upuploadImages.length - 1;index >= 0;index--) {
+            
+//            if(upuploadImages[index].includes("-coth")){
+            
+                var newbox = document.createElement("DIV");
+                newbox.classList.add("imagebox");         
+                
+                var deletespan = document.createElement("SPAN");
+                deletespan.innerHTML = "X";
+                deletespan.classList.add("deletespan");
+                deletespan.onclick = function(){
+                    //delete the parent div of the image
+                    //delete the file
+                    var filename = this.parentElement.getElementsByClassName("filelabel")[0].innerHTML; 
+                    var httpc = new XMLHttpRequest();
+                    var url = "deletefile.php";         
+                    httpc.open("POST", url, true);
+                    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+                    httpc.send("filename=trashmagic/" + filename);//send text to deletefile.php
+                    this.parentElement.parentElement.removeChild(this.parentElement);
+                }
+                
+                newbox.appendChild(deletespan);
+        
+                var newdiv = document.createElement("DIV");
+                newdiv.innerHTML = upuploadImages[index];
+                newdiv.className = "filelabel";
+                newbox.appendChild(newdiv);
+            
+                
+                document.getElementById("feedscroll").appendChild(newbox);
+                var newimg = document.createElement("IMG");
+                newimg.src = "trashmagic/" + upuploadImages[index];
+                newimg.classList.add("uploadimage");
+                newimg.classList.add("button");
+                newbox.appendChild(newimg);
+                
+        //    }
+            
         }
-        
-        
-    };
-}
-
-httpc9.open("GET", "dir.php?filename=scrolls", true);
+    }
+};
+httpc9.open("GET", "dir.php?filename=trashmagic", true);
 httpc9.send();
 
-document.getElementById("scrollinput").value = "";
-
-document.getElementById("scrollinput").onchange = function(){
-    loadscroll(this.value);
-    this.value = "";
-}
-
-
-if(innerWidth > innerHeight){
-    codesquaresize = 100;
-}
-else{
-    codesquaresize = 80;
-}
-
-
+codesquaresize = 170;
+marginsize = 40;
+fontsize = 12;
 //globalurl = "http://www.trashrobot.org/qrcode.html";
 globalurl = window.location.href;
-
-
 qrcode = new QRCode(document.getElementById("qrcode"), {
 	text: globalurl,
 	width: codesquaresize,
@@ -323,109 +283,71 @@ qrcode = new QRCode(document.getElementById("qrcode"), {
 	colorLight : "#ffffff",
 	correctLevel : QRCode.CorrectLevel.H
 });
-    
-qrcode.makeCode(globalurl);
-
-qrcode2 = new QRCode(document.getElementById("qrcode2"), {
-	text: globalurl,
-	width: codesquaresize,
-	height: codesquaresize,
-	colorDark : "#000000",
-	colorLight : "#ffffff",
-	correctLevel : QRCode.CorrectLevel.H
-});
-    
-qrcode2.makeCode(globalurl);
-
-
-hideportraitlist = true;
-
-document.getElementById("hidebutton").onclick = function(){
-    hideportraitlist = !hideportraitlist;
-    if(hideportraitlist){
-        document.getElementById("scrollsbox").style.display = "none";
-        document.getElementById("hideicon").src = "iconsymbols/showmenu.svg";
-    }
-    else{
-        document.getElementById("scrollsbox").style.display = "block";
-        document.getElementById("hideicon").src = "iconsymbols/hidemenu.svg";
-
-    }
-
-}
 
 </script>
 <style>
-.editlinks{
-/*    display:none;*/
-}
-a{
-    color:blue;
-}
-pre{
-  overflow:scroll;
-}
-.MathJax_Display{
-  overflow:scroll;
-}
 body{
     overflow:hidden;
-    background-color:#008c8c;
-    font-family:Arial;
-
+    background-color:#9f8767;    
 }
-input{
-    display:block;
-    margin:auto;
-    width:90%;
-    font-family:courier;
-    font-size:1.2em;
-    background-color:white;
-    color:black;
-    border-color:blue;
-    border-width:8px;
-}
-.boxlink{
-    padding-left:1em;
-    cursor:pointer;
-    color:blue;
-}
-.boxlink:hover{
-    background-color:#808080;
-}
-
-.scrolllink{
-    color:blue;
-    cursor:pointer;
-}
-.scrolllink:hover{
-    background-color:#ff2cb490;
-}
-
-#scrollscroll{
-    text-align:justify;
-    padding-left:1em;
-    padding-right:1em;
+main{
     position:absolute;
-    overflow:scroll;
-    background-color:#008c8c;
-    color:#00ff00;
-    font-size:2em;
+    right:25px;
+    bottom:25px;
+    border:solid;
+    border-width:5px
 }
-#scrollscroll a{
-    color:blue;
-}
-#scrollscroll img{
+
+
+#feedscroll img{
     max-width:80%;
     display:block;
     margin:auto;
-    background-color:none;
+    margin-top:1em;
+    border:solid;
 }
-.data{
-    display:none;
+
+p{
+    margin:1em 1em 1em 1em;
+    font-size:1.5em;
+    font-family:Comic Sans MS;
+    overflow:scroll;
 }
-h1,h2,h3,h4{
+h1,h2,h3{
+    font-family:Comic Sans MS;
     text-align:center;
+        overflow:scroll;
+
+}
+a{
+    color:blue;
+    font-family:Comic Sans MS;
+    font-size:1.5em;    
+    overflow:scroll;
+}
+#feedscroll{
+    position:absolute;
+    left:0px;
+    bottom:0px;
+    top:6em;
+    z-index:-2;
+    overflow:scroll;
+    background-color:#9f8767;    
+    padding:1em 1em 1em 1em;
+}
+.deletespan{
+    color:red;
+    border:solid;
+    border-color:red;
+    border-radius:0.5em;
+    padding: 1em 1em 1em 1em;
+    cursor:pointer;
+}
+.deletespan:hover{
+    background-color:#ff000080;
+}
+.filelabel{
+    display:none;
 }
 .button{
     cursor:pointer;
@@ -436,64 +358,26 @@ h1,h2,h3,h4{
 .button:active{
     background-color:yellow;
 }
-#scrollsbox{
+.data{
+    display:none;
+}
+#qrcode{
+    border:solid;
+    border-color:white;
+    border-width:24px;
+    background-color:white;
+}
+#mainimage{
     position:absolute;
-    background-color:#008c8c;
-    color:black;
-    overflow:scroll;
+    right:0px;
+    top:0px;
+    z-index:-2;
 }
-
-
-@media only screen and (orientation: landscape) {
-    
-    #scrollsbox{
-        right:0px;
-        top:0px;
-        bottom:0px;
-    }
-    #scrollscroll{
-        top:0px;
-        bottom:0px;
-    }   
-    #landscapelinks{
-        position:absolute;
-        left:0px;
-        top:0px;
-    }
-    #portraitlinks{
-        display:none;
-    }
-
-}
-
-@media only screen and (orientation: portrait) {
-    .button{
-        font-size:2em;
-    }
-    #scrollsbox{
-        height:30%;
-        right:0px;
-        left:0px;
-        bottom:0px;
-        display:none;
-    }
-    #scrollscroll{
-        top:70px;
-        left:10px;
-        right:10px;
-        bottom:10px;
-    }   
-    #landscapelinks{
-        display:none;
-    }
-    #portraitlinks{
-        position:absolute;
-        left:0px;
-        top:0px;
-    }
-    table img{
-        max-width:60px;
-    }
+#mainbox{
+    position:absolute;
+    right:0px;
+    top:0px;
+    z-index:-1;
 }
 </style>
 </body>

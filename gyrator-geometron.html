@@ -21,7 +21,6 @@
     <!--Stop Google:-->
     <META NAME="robots" CONTENT="noindex,nofollow">
             <script src = "geometron.js"></script>
-            <script src = "iconsets.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.js"></script>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>    
@@ -311,13 +310,7 @@ function mouseClicked() {
 
 function addglyph(localindex){
     localcolor = colorwheel[localindex];
-    localglyph = hebrewicons[localindex];
-
-//    GVM1.style.color0 = colorwheel[localindex];
-  //  GVM1.style.fill0 = colorwheel[localindex];
-//    GVM1.drawGlyph(hebrewicons[localindex]);
     GVM1.cursorAction(actionset[localindex]);
-    //GVM1.glyph += actionset[localindex].toString(8) + ",";
 
     document.getElementById("hebrewinput").value = "0" + (actionset[localindex]).toString(8) + "," + document.getElementById("hebrewinput").value;
     
