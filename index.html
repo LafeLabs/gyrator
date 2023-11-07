@@ -209,8 +209,10 @@ Trub = 12;
 let osc, fft,osc2,osc3;
 oscon = false;
 
- freq = 111;
-  freq2 = 80;
+// freq = 111;
+  //freq2 = 80;
+ freq = 120;
+ freq2 = 66;
   
 nxy = 16;
 xarray = [];
@@ -432,11 +434,17 @@ function draw(){
   circle(width- 100,30,50);
   noFill();
   textSize(50);
+  fill("red");
   text('F',width - 120,100);
+
+  textSize(50);
+  text('X',0.5*width ,100);
+  text('Y',width - 50,0.5*height);
 
   stroke("blue");
   fill(0,0,255*speed);
   circle(width - 30,30,50);
+  fill("blue");
   text('v',width - 50,100);
 
   stroke("#ff2cb4");
