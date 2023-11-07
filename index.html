@@ -51,12 +51,13 @@
     <canvas id = "maincanvas"></canvas>
 </div>
 
+<div id = "qrcode"></div>
+
 <div id = "feedscroll">
     
 
     <h1>Trash Magic Gyrator</h1>
     
-    <div id = "qrcode"></div>
 
 <table>
     <tr>
@@ -413,7 +414,7 @@ function draw(){
   
   
   
-  gamma = 2;
+  gamma = 1;
   tau = 16;
   v = vold + ((force*gamma - vold)/tau);
   vold = v;
@@ -454,7 +455,6 @@ function draw(){
   osc.freq(freq*(1 + v));  
   osc2.freq(freq2*(1 + v)); 
 
-  noFill();
 
 
 
@@ -465,7 +465,13 @@ function draw(){
 //mainGVM.drawGlyph(pentagram);
   strokeWeight(6);
   
-    
+  fill(0);
+  circle(0.5*width*(1 + Math.sin(2*Math.PI*v)),0.5*height*(1 - Math.cos(2*Math.PI*v)),50);  
+  fill("#ff2cb4");
+  circle(0.5*width*(1 + Math.sin(2*Math.PI*v)),0.5*height*(1 - Math.cos(2*Math.PI*v)),25);  
+ 
+  noFill();
+  circle(width/2,height/2,width);  
   
   frameIndex++;
 
