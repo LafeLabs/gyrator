@@ -27,8 +27,8 @@
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.js"></script>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="geometron.js"></script>
+    <script src="tarot.js"></script>
     
-<!--
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script>
             MathJax.Hub.Config({
@@ -40,7 +40,6 @@
                 }
             });//			MathJax.Hub.Typeset();//tell Mathjax to update the math
         </script>
--->
 
 </head>
 <body>
@@ -69,6 +68,8 @@
 <script>
 
 //document.getElementById("mainimage").src = "https://upload.wikimedia.org/wikipedia/commons/7/7a/Clavulina_cristata_sasata.JPG";
+
+//document.getElementById("mainimage").src = "https://upload.wikimedia.org/wikipedia/commons/6/67/Mushrooms_growed_with_PF_Tek.jpg";
 
 pentagram = "0336,0336,0336,0336,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0337,0337,0337,0337,0337,0330,0336,0332,0337,0335,0223,0321,0340,0334,0336,0330,0335,0340,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0330,0322,0340,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0323,0330,0340,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0330,0340,0324,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0330,0325,0340,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0326,0330,0335,0340,0335,0335,0336,0330,0340,0334,0334,0330,0340,0334,0334,0340,0330,0340,0334,0334,0330,0340,0334,0334,0334,0335,0330,0337,0330,0334,0337,0337,0330,0334,0337,0337,0330,0334,0337,0337,0330,0335,0335,0337,0337,0330,0335,0337,0337,0321,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0334,0335,0201,0334,0334,";
 
@@ -130,15 +131,20 @@ mainGVM.style.line5 = 4;
 mainGVM.style.line6 = 4;
 mainGVM.style.line7 = 4;
 
-mainGVM.x0 = squaresize*350/700;
-mainGVM.y0 = squaresize*516.54/700;
-mainGVM.unit = squaresize*345/700;
+//mainGVM.x0 = squaresize*350/700;
+//mainGVM.y0 = squaresize*516.54/700;
+mainGVM.unit = squaresize/15;
 
-mainGVM.drawGlyph(pentagram);
+mainGVM.x0 = squaresize/2;
+mainGVM.y0 = squaresize/2;
 
-T = 16;//number of frames of period of oscillation, 8 frames for 3 Hz at 24 frames per second
+//mainGVM.drawGlyph(pentagram);
+
+T = 32;//number of frames of period of oscillation, 8 frames for 3 Hz at 24 frames per second
 
 //T = 35;
+
+Trub = 12;
 
 let osc, fft,osc2,osc3;
 oscon = false;
@@ -146,7 +152,7 @@ oscon = false;
  freq = 111;
   freq2 = 80;
   
-nxy = 32;
+nxy = 16;
 xarray = [];
 yarray = [];
 for(var index = 0;index < nxy;index++){
@@ -155,10 +161,82 @@ for(var index = 0;index < nxy;index++){
     
 }
 
+P = [];
+Q = [];
+for(var index = 0;index < 16;index++){
+    P.push(Math.cos(2*Math.PI*index/16));
+    Q.push(Math.sin(2*Math.PI*index/16));
+}
+
+angles = [];
+colorwheel  = [];
+spingain = 0.001;
+nangles = 12;
+binsize = 10;
+deckindex = 0;
+mainGVM.drawGlyph(deck[deckindex]);
+spinradius = 20;
+
+
+for(var index = 0;index < nangles;index++){
+    H = index*360/nangles;
+    z = 255*(1 - Math.abs((H/60)%2 - 1));
+    
+    if(H < 60){
+        red = 255;
+        green = Math.round(z);
+        blue = 0;
+    }
+    if(H >= 60 && H < 120){
+        red = Math.round(z);
+        green = 255;
+        blue = 0;
+    }
+    if(H >= 120 && H < 180){
+        red = 0;
+        green = 255;
+        blue = Math.round(z);
+    }
+    if(H >= 180 && H < 240){
+        red = 0;    
+        green = Math.round(z);
+        blue = 255;
+    }
+    if(H >= 240 && H < 300){
+        red = Math.round(z);    
+        green = 0;
+        blue = 255;
+    }
+    if(H >= 300 && H < 360){
+        red = 255;    
+        green = 0;
+        blue = Math.round(z);
+    }
+        
+    redstring = red.toString(16);
+    if(redstring.length < 2){
+        redstring = "0" + redstring;    
+    }
+    greenstring = green.toString(16);
+    if(greenstring.length < 2){
+        greenstring = "0" + greenstring; 
+    }
+    bluestring = blue.toString(16);
+    if(bluestring.length < 2){
+        bluestring = "0" + bluestring; 
+    }
+    color = "#" + redstring + greenstring + bluestring;
+    colorwheel.push(color);
+    angles.push(0);
+}
+
+
+v = 0;
+vold = 0;
   
 function setup() {
 
-  createCanvas(0.9*squaresize, 0.15*squaresize);    
+  createCanvas(0.9*squaresize, 0.25*squaresize);    
   osc = new p5.SinOsc(); // set frequency and type
   osc.amp(1.0);
   osc2 = new p5.SinOsc(); // set frequency and type
@@ -185,21 +263,41 @@ frameIndex = 0;
 function draw(){
   
   
-  for(var index = 1;index < nxy;index++){
-      xarray[index] = xarray[index-1];
+  for(var index = nxy-1;index > 0;index--){
+      xarray[index] = xarray[index-1];  
+      yarray[index] = yarray[index-1];
+
   }
   xarray[0] = mouseX;
   yarray[0] = mouseY;
+  px = 0;
+  qx = 0;
+  for(var i = 0; i < P.length; i++) {
+     px += (xarray[i])*P[i];
+     qx += (xarray[i])*Q[i];
+  }
+  
+  F = sqrt(px*px + qx*qx)/16;
+
+  py = 0;
+  qy = 0;
+  for(var i = 0; i < P.length; i++) {
+     py += (yarray[i])*P[i];
+     qy += (yarray[i])*Q[i];
+  }
+  
+  G = sqrt(py*py + qy*qy)/16;
   
   
-  
+  stroke(0);
   spectrum = fft.analyze();
   nyquistFreq = sampleRate() / 2;
   binFreq = nyquistFreq / (spectrum.length);
   
   background("#9f8767");
-  circle(mouseX,height/2,height/4);
+  circle(mouseX,mouseY,height/4);
   noFill();
+
   beginShape();
   vertex(0,height);
   strokeWeight(4);
@@ -210,24 +308,150 @@ function draw(){
   endShape();
   
   
+  stroke("blue");
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < P.length; i++) {
+     vertex(width - i*xgain,0.5*height - 0.25*height*P[i]);
+  }
+  endShape();
+
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < P.length; i++) {
+     vertex(0.85*width - 0.085*width*P[i],i*xgain);
+
+  }
+  endShape();
+
+
+  stroke("green");
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < xarray.length; i++) {
+     vertex(width - i*xgain,0.5*height - 0.25*height*Q[i]);
+  }
+  endShape();
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < xarray.length; i++) {
+     vertex(0.85*width - 0.085*width*Q[i],i*xgain);
+  }
+  endShape();
 
   
+  stroke("red");
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < xarray.length; i++) {
+     vertex(width - i*xgain, yarray[i]);
+  }
+  endShape();
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < xarray.length; i++) {
+     vertex(xarray[i],i*xgain);
+  }
+  endShape();
+     
+     stroke("purple");
+//  circle(4*F,4*G,50);
+  
+  stroke("red");
+  force = 10*Math.sqrt(F*F/(width*width) + G*G/(height*height));
+  if(force > 255){
+      force = 255;
+  }
+  
+  
+  fill(255*force,0,0);
+  circle(width- 30,30,50);
+  noFill();
+  
+  gamma = 2;
+  tau = 16;
+  v = vold + ((force*gamma - vold)/tau);
+  vold = v;
+  speed = v;
+  if(v > 1)
+  {
+    speed = 1;
+  }  
+  if(v < 0.1){
+    speed = 0;
+  }  
+  osc.amp(speed);
+  osc2.amp(speed);
 
-    document.getElementById("mainimage").style.width =  (squaresize + 2*squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";          
-    document.getElementById("mainimage").style.right =  (-squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";    
-    document.getElementById("mainimage").style.top =  (-squaresize*(1 - Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";            
+  stroke("blue");
+  fill(0,0,255*speed);
+  circle(width - 100,height/2,100);
+
+  fill("purple");
+  circle(mouseX,mouseY,height/4);
+
+
+  noFill();
+
+
+noisepower = 0;
+for(var index = 0;index < 100;index++){
+    noisepower+=spectrum[index];
+}
+noisepower /= 100;
+noisepower /= 256;
+noisepower *= 10;
+
+    document.getElementById("mainimage").style.width =  (squaresize + 2*squaresize*(1 + noisepower + Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";          
+    document.getElementById("mainimage").style.right =  (-squaresize*(1 + noisepower + Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";    
+    document.getElementById("mainimage").style.top =  (-squaresize*(1 + noisepower + Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";            
         
+ 
+ for(var index = 0;index < nangles;index++){
+      strokeWeight(10);
+      stroke(colorwheel[index]);
+      for(var subindex = 1;subindex < binsize;subindex++){
+          line(xgain*((index + 1)*binsize + subindex - 1),map(spectrum[(index + 1)*binsize + subindex - 1], 0, 255, height, 0),xgain*((index + 1)*binsize + subindex),map(spectrum[(index + 1)*binsize + subindex], 0, 255, height, 0));
+      }
+      power = 0;
+      for(var subindex = 0;subindex < binsize;subindex++){
+         power += spectrum[(index + 1)*binsize + subindex];
+      }
+      power /= binsize;
+      angles[index] -= spingain*power;
+      line((index + 1)*binsize*xgain,0.5*height,(index + 1)*binsize*xgain + spinradius*Math.sin(angles[index]+Math.PI),0.5*height + spinradius*Math.cos(angles[index]+Math.PI));
+      fill(colorwheel[index] + "80");
+      circle((index + 1.5)*binsize*xgain,map(power, 0, 255, height, 0),50);
+      if(-angles[index] > 2*Math.PI){
+//          glyph = (index).toString(n) + glyph;
+  //        document.getElementById("hebrewinput").value = glyph;
+    //      indexarray.push(index);
+      //    addglyph(index);
+          mainGVM.style.color0 = colorwheel[index];
+          mainGVM.style.fill0 = colorwheel[index];
+          deckindex += 2**index;
+          deckindex = deckindex%deck.length;
+          mainGVM.drawGlyph(deck[deckindex]);
+
+          angles[index] += 2*Math.PI;
+//          for(var zeroindex = 0;zeroindex < angles.length;zeroindex++){
+  //            angles[zeroindex] = 0;
+    //      }
+      }
+      noFill();
+      strokeWeight(1);
+//      text(((index + 1)*binsize*binFreq).toString() + " Hz-\n" + ((index + 2)*binsize*binFreq).toString() + " Hz",(index + 0.6)*binsize*xgain,height/3);
+  }
+
               
-        
-  osc.amp(1 - 0.75*Math.cos(2*Math.PI*frameIndex/T));
-  osc2.amp(1 - 0.75*Math.cos(2*Math.PI*frameIndex/T));
-
-
 //mainGVM.drawGlyph(pentagram);
-
-
   strokeWeight(6);
+  
+    
+  
   frameIndex++;
+
+  
 
 }
 

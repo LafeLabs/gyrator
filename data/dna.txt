@@ -23,6 +23,7 @@
         "scrolldelete.html",
         "scrolleditor.html",
         "scrollset.html",
+        "tarot.js",
         "textconvert.html",
         "trashbook.html",
         "trashmagic.css",
