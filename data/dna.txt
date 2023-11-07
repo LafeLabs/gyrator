@@ -12,6 +12,7 @@
         "gyrator-octal.html",
         "hypercube.html",
         "iconsets.js",
+        "imagefeed.txt",
         "index.html",
         "linkeditor.html",
         "links.html",
