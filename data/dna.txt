@@ -10,6 +10,7 @@
         "gyrator-geometron.html",
         "gyrator-hex.html",
         "gyrator-octal.html",
+        "gyrator-sound.html",
         "hypercube.html",
         "iconsets.js",
         "imagefeed.txt",

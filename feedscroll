@@ -59,51 +59,11 @@
     
             <table>
                 <tr>
-                    <td>New Image URL:</td>
+                    <td>Image URL:</td>
                     <td><input id = "imageurlinput"/></td>
                 </tr>
-                <tr>
-                    <td>w:</td>
-                    <td><input id = "winput"/></td>
-                    <td>%</td>
-                </tr>
-                <tr>
-                    <td>x:</td>
-                    <td><input id = "xinput"/></td>
-                    <td>%</td>
-                </tr>
-                <tr>
-                    <td>y:</td>
-                    <td><input id = "yinput"/></td>
-                    <td>%</td>
-                </tr>
-                <tr>
-                    <td>f1:</td>
-                    <td><input id = "f1input"/></td>
-                    <td>Hz</td>
-                </tr>
-                <tr>
-                    <td>f2:</td>
-                    <td><input id = "f2input"/></td>
-                    <td>Hz</td>
-                </tr>
             </table>
-        <form id = "uploadform" action="uploadimage.php" method="post" enctype="multipart/form-data">
-                        <span id ="uploadspan">UPLOAD:</span>
-                <input type="file" name="fileToUpload" id="fileToUpload">
-                <input type="submit" value="Upload Image" name="submit" id ="submitinput">
-        </form>
-        
-<p>
-    $$
-    F_x = \int_0^T\cos{\left(\frac{2\pi t}{T}\right)}x(t)dt  + \int_0^T\sin{\left(\frac{2\pi t}{T}\right)}x(t)dt
-    $$
-    
-    $$
-    F_y = \int_0^T\cos{\left(\frac{2\pi t}{T}\right)}y(t)dt  + \int_0^T\sin{\left(\frac{2\pi t}{T}\right)}y(t)dt
-    $$
-</p>
-        
+
     </div>
     <div id = "localscroll"></div>
     <div id = "globalscroll"></div>
@@ -209,14 +169,16 @@ if(innerWidth > innerHeight){
     squaresize = innerHeight;
 
 
-        document.getElementById("scrollbox").style.right =  squaresize.toString()+ "px";    
-        document.getElementById("scrollbox").style.top = "0px";        
+        //document.getElementById("scrollbox").style.right =  squaresize.toString()+ "px";    
+        //document.getElementById("scrollbox").style.height  =  squaresize.toString()+ "px";    
+        //document.getElementById("scrollbox").style.top = "0px";        
+        
+        
         document.getElementById("qrcode").style.right = (squaresize - 125).toString() + "px";
         
 }
 else{
     squaresize = innerWidth;
-    
     
     
         document.getElementById("scrollbox").style.right =  "0px";    
@@ -619,10 +581,6 @@ main{
     position:absolute;
     right:0px;
     top:0px;
-    /*
-    border:solid;
-    border-width:5px
-    */
 }
 
 
@@ -661,43 +619,46 @@ a{
 }
 #scrollbox{
     position:absolute;
+    border:solid;
+    border-width:10px;
     left:0px;
     bottom:0px;
-    top:6em;
-    z-index:-2;
+    right:0px;
+    top:0px;
+    z-index:10;
     overflow:scroll;
-    background-color:#9f8767;    
+/*    background-color:#9f8767;    */
+    background-color:black;
     padding:1em 1em 1em 1em;
 }
 #mainscroll{
    position:absolute;    
    left:0px;
+   width:100%;
    top:0px;
    overflow:scroll;
-   width:100%;
-   height:50%;
-   background-color:#ff000080;
+   background-color:#ff000080;    
+   display:none;
+
 }
 #localscroll{
-
    background-color:#00ff0080;
    position:absolute;    
    left:0px;
+   right:50%;
    top:0px;
    overflow:scroll;
    bottom:0px;
    top:50%;
-    width:50%;
+    display:none;
 }
 #globalscroll{
    background-color:#0000ff80;
-       
-       
-
+    display:none;
    position:absolute;    
    right:0px;
    top:50%;
-   width:50%;
+   left:50%;
    overflow:scroll;
    bottom:0px;
 }

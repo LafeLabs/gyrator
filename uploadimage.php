@@ -29,7 +29,3 @@
         <a href = "index.html">index.html</a>
     </p>
     
-    <p style = "font-size:5em">
-        <a href = "images.html">images.html</a>
-    </p>
-    
