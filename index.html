@@ -58,14 +58,108 @@
     
     <div id = "qrcode"></div>
 
+<table>
+    <tr>
+        <td>Image URL:</td>
+        <td><input id = "imageurlinput"/></td>
+    </tr>
+</table>
 
+<div id = "imagefeed">
+    
+</div>
 </div>
 
 <script>
 
+
+document.getElementById("imageurlinput").value = "";
+
+document.getElementById("imageurlinput").onchange  = function(){
+    document.getElementById("imagefeed").innerHTML = "";
+    imagefeed.push(this.value);
+   // saveimagefeed();
+//    loadimagefeed();
+  //  loadlocalimagefeed();
+}
+
+
+function saveimagefeed(){
+    var httpc = new XMLHttpRequest();
+    httpc.open("POST", "filesaver.php", true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpc.send("data="+encodeURIComponent(JSON.stringify(imagefeed,null,"  "))+"&filename=imagefeed.txt");//send text to filesaver.php   
+    document.getElementById("imageurlinput").value = "";
+     
+
+}
+
+imagefeed = [];
+var httpcImagefeed = new XMLHttpRequest();
+httpcImagefeed.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) {
+        imagefeed = JSON.parse(this.responseText);
+        loadimagefeed();
+    };
+};
+
+httpcImagefeed.open("GET", "fileloader.php?filename=imagefeed.txt", true);
+httpcImagefeed.send();
+
+function loadimagefeed(){
+//    document.getElementById("imagefeed").innerHTML = "";
+    for(var index = imagefeed.length - 1;index >= 0;index--){
+        var newbox = document.createElement("DIV");
+        newbox.classList.add("imagebox");
+        var newimg = document.createElement("IMG");
+        newimg.src = imagefeed[index];
+        newimg.classList.add("uploadimage");
+        newimg.classList.add("button");
+        newbox.appendChild(newimg);
+        document.getElementById("imagefeed").appendChild(newbox);
+        newimg.onclick = function() {
+            var localsrc = this.src;
+            document.getElementById("mainimage").src = localsrc;
+
+        }
+
+/*
+        var newimg = document.createElement("IMG");
+        newimg.src = "iconsymbols/delete.svg";
+        newbox.appendChild(newimg);
+        newimg.classList.add("button");
+        newimg.classList.add("deletebutton");
+
+        newimg.id = "src" + index.toString();
+        newimg.onclick = function(){
+            var thisindex = this.id.substring(3);
+            var localimagefeed = imagefeed;
+            imagefeed = [];
+            for(var srcindex = 0;srcindex < localimagefeed.length;srcindex++){
+                if(srcindex != thisindex){
+                    imagefeed.push(localimagefeed[srcindex]);
+                }
+            }
+            document.getElementById("imagefeed").innerHTML = "";
+            
+            saveimagefeed();
+            loadimagefeed();
+            loadlocalimagefeed();
+            
+        }
+*/
+
+    }    
+}
+
+
+
 //document.getElementById("mainimage").src = "https://upload.wikimedia.org/wikipedia/commons/7/7a/Clavulina_cristata_sasata.JPG";
 
 //document.getElementById("mainimage").src = "https://upload.wikimedia.org/wikipedia/commons/6/67/Mushrooms_growed_with_PF_Tek.jpg";
+
+document.getElementById("mainimage").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Psilocybe.mexicana.la.primavera.jpg/1920px-Psilocybe.mexicana.la.primavera.jpg";
+
 
 pentagram = "0336,0336,0336,0336,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0331,0337,0337,0337,0337,0337,0330,0336,0332,0337,0335,0223,0321,0340,0334,0336,0330,0335,0340,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0330,0322,0340,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0323,0330,0340,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0330,0340,0324,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0330,0325,0340,0336,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0330,0340,0335,0335,0335,0336,0326,0330,0335,0340,0335,0335,0336,0330,0340,0334,0334,0330,0340,0334,0334,0340,0330,0340,0334,0334,0330,0340,0334,0334,0334,0335,0330,0337,0330,0334,0337,0337,0330,0334,0337,0337,0330,0334,0337,0337,0330,0335,0335,0337,0337,0330,0335,0337,0337,0321,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0201,0334,0334,0201,0335,0335,0335,0335,0334,0335,0201,0334,0334,";
 
@@ -102,11 +196,12 @@ shapestack = [
 
 
 if(innerWidth > innerHeight){
-    squaresize = innerHeight - 50;
+    squaresize = innerHeight;
     document.getElementById("feedscroll").style.right =  squaresize.toString()+ "px";    
+        document.getElementById("feedscroll").style.top = "0px";
 }
 else{
-    squaresize = innerWidth - 50;
+    squaresize = innerWidth;
     
     document.getElementById("feedscroll").style.right =  "0px";    
     document.getElementById("feedscroll").style.top = squaresize.toString() + "px";
@@ -129,10 +224,10 @@ mainGVM.style.line7 = 4;
 
 //mainGVM.x0 = squaresize*350/700;
 //mainGVM.y0 = squaresize*516.54/700;
-mainGVM.unit = squaresize/15;
+mainGVM.unit = squaresize/25;
 
-mainGVM.x0 = squaresize/2;
-mainGVM.y0 = squaresize/2;
+mainGVM.x0 = squaresize/5;
+mainGVM.y0 = squaresize/5;
 
 //mainGVM.drawGlyph(pentagram);
 
@@ -232,7 +327,7 @@ vold = 0;
   
 function setup() {
 
-  createCanvas(0.9*squaresize, 0.9*squaresize);    
+  createCanvas(squaresize,squaresize);    
   osc = new p5.SinOsc(); // set frequency and type
   osc.amp(1.0);
   osc2 = new p5.SinOsc(); // set frequency and type
@@ -316,7 +411,7 @@ function draw(){
   beginShape();
   strokeWeight(4);
   for(var i = 0; i < P.length; i++) {
-     vertex(0.85*width - 0.085*width*P[i],i*xgain);
+     vertex(0.5*width - 0.25*width*P[i],i*xgain);
 
   }
   endShape();
@@ -332,7 +427,7 @@ function draw(){
   beginShape();
   strokeWeight(4);
   for(var i = 0; i < xarray.length; i++) {
-     vertex(0.85*width - 0.085*width*Q[i],i*xgain);
+     vertex(0.5*width - 0.25*width*Q[i],i*xgain);
   }
   endShape();
 
@@ -552,10 +647,12 @@ body{
 }
 main{
     position:absolute;
-    right:25px;
-    bottom:25px;
+    right:0px;
+    top:0px;
+    /*
     border:solid;
     border-width:5px
+    */
 }
 
 
