@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--
+
+        EVERYTHING IS PHYSICAL 
+        EVERYTHING IS FRACTAL
+        EVERYTHING IS RECURSIVE
+        NO MONEY 
+        MO MINING 
+        NO PROPERTY
+        LOOK AT THE INSECTS
+        LOOK AT THE FUNGI
+        LANGUAGE IS HOW THE MIND PARSES REALITY
+
+    -->
+        <title>GYRATOR</title>
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAZ4efAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREREREREREREREREREREREAAAAAAAAREQEREREREBERAREREREQEREBEAAAARAREQEQEREBEBERARAQAQEQEREBEBABARAREQEQEREBEBERARAAAAEQEREBERERERAREQEREREREBERAAAAAAAAEREREREREREREREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon">
+
+
+    <!--Stop Google:-->
+    <META NAME="robots" CONTENT="noindex,nofollow">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script>
+            MathJax.Hub.Config({
+                tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                processEscapes: true,
+                processClass: "mathjax",
+                ignoreClass: "no-mathjax"
+                }
+            });//			MathJax.Hub.Typeset();//tell Mathjax to update the math
+        </script>
+
+</head>
+<body>
+    
+<img src = "https://upload.wikimedia.org/wikipedia/commons/8/82/Morchella_conica_1_beentree.jpg" id = "mainimage"/>
+
+
+<div id = "mainbox">
+    <canvas id = "maincanvas"></canvas>
+</div>
+
+<div id = "feedscroll">
+    
+
+    <h1>Trash Magic Gyrator</h1>
+    
+    <div id = "qrcode"></div>
+
+<table>
+    <tr>
+        <td>Image URL:</td>
+        <td><input id = "imageurlinput"/></td>
+    </tr>
+</table>
+
+<div id = "imagefeed">
+    
+</div>
+</div>
+
+<script>
+
+
+document.getElementById("imageurlinput").value = "";
+
+document.getElementById("imageurlinput").onchange  = function(){
+    document.getElementById("imagefeed").innerHTML = "";
+    imagefeed.push(this.value);
+   // saveimagefeed();
+//    loadimagefeed();
+  //  loadlocalimagefeed();
+}
+
+
+function saveimagefeed(){
+    var httpc = new XMLHttpRequest();
+    httpc.open("POST", "filesaver.php", true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpc.send("data="+encodeURIComponent(JSON.stringify(imagefeed,null,"  "))+"&filename=imagefeed.txt");//send text to filesaver.php   
+    document.getElementById("imageurlinput").value = "";
+     
+
+}
+
+imagefeed = [];
+var httpcImagefeed = new XMLHttpRequest();
+httpcImagefeed.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) {
+        imagefeed = JSON.parse(this.responseText);
+        loadimagefeed();
+    };
+};
+
+httpcImagefeed.open("GET", "fileloader.php?filename=imagefeed.txt", true);
+httpcImagefeed.send();
+
+function loadimagefeed(){
+//    document.getElementById("imagefeed").innerHTML = "";
+    for(var index = imagefeed.length - 1;index >= 0;index--){
+        var newbox = document.createElement("DIV");
+        newbox.classList.add("imagebox");
+        var newimg = document.createElement("IMG");
+        newimg.src = imagefeed[index];
+        newimg.classList.add("uploadimage");
+        newimg.classList.add("button");
+        newbox.appendChild(newimg);
+        document.getElementById("imagefeed").appendChild(newbox);
+        newimg.onclick = function() {
+            var localsrc = this.src;
+            document.getElementById("mainimage").src = localsrc;
+
+        }
+
+/*
+        var newimg = document.createElement("IMG");
+        newimg.src = "iconsymbols/delete.svg";
+        newbox.appendChild(newimg);
+        newimg.classList.add("button");
+        newimg.classList.add("deletebutton");
+
+        newimg.id = "src" + index.toString();
+        newimg.onclick = function(){
+            var thisindex = this.id.substring(3);
+            var localimagefeed = imagefeed;
+            imagefeed = [];
+            for(var srcindex = 0;srcindex < localimagefeed.length;srcindex++){
+                if(srcindex != thisindex){
+                    imagefeed.push(localimagefeed[srcindex]);
+                }
+            }
+            document.getElementById("imagefeed").innerHTML = "";
+            
+            saveimagefeed();
+            loadimagefeed();
+            loadlocalimagefeed();
+            
+        }
+*/
+
+    }    
+}
+
+
+
+//document.getElementById("mainimage").src = "https://upload.wikimedia.org/wikipedia/commons/7/7a/Clavulina_cristata_sasata.JPG";
+
+//document.getElementById("mainimage").src = "https://upload.wikimedia.org/wikipedia/commons/6/67/Mushrooms_growed_with_PF_Tek.jpg";
+
+document.getElementById("mainimage").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Psilocybe.mexicana.la.primavera.jpg/1920px-Psilocybe.mexicana.la.primavera.jpg";
+
+
+if(innerWidth > innerHeight){
+    squaresize = innerHeight;
+    document.getElementById("feedscroll").style.right =  squaresize.toString()+ "px";    
+        document.getElementById("feedscroll").style.top = "0px";
+}
+else{
+    squaresize = innerWidth;
+    
+    document.getElementById("feedscroll").style.right =  "0px";    
+    document.getElementById("feedscroll").style.top = squaresize.toString() + "px";
+}
+
+document.getElementById("mainimage").style.width =  squaresize.toString()+ "px";    
+
+
+
+
+//mainGVM.drawGlyph(pentagram);
+
+T = 32;//number of frames of period of oscillation, 8 frames for 3 Hz at 24 frames per second
+
+//T = 35;
+
+Trub = 12;
+
+let osc, fft,osc2,osc3;
+oscon = false;
+
+ freq = 111;
+  freq2 = 80;
+  
+nxy = 16;
+xarray = [];
+yarray = [];
+for(var index = 0;index < nxy;index++){
+    xarray.push(0);
+    yarray.push(0);
+    
+}
+
+P = [];
+Q = [];
+for(var index = 0;index < 16;index++){
+    P.push(Math.cos(2*Math.PI*index/16));
+    Q.push(Math.sin(2*Math.PI*index/16));
+}
+
+angles = [];
+colorwheel  = [];
+spingain = 0.001;
+nangles = 12;
+binsize = 10;
+spinradius = 20;
+
+
+for(var index = 0;index < nangles;index++){
+    H = index*360/nangles;
+    z = 255*(1 - Math.abs((H/60)%2 - 1));
+    
+    if(H < 60){
+        red = 255;
+        green = Math.round(z);
+        blue = 0;
+    }
+    if(H >= 60 && H < 120){
+        red = Math.round(z);
+        green = 255;
+        blue = 0;
+    }
+    if(H >= 120 && H < 180){
+        red = 0;
+        green = 255;
+        blue = Math.round(z);
+    }
+    if(H >= 180 && H < 240){
+        red = 0;    
+        green = Math.round(z);
+        blue = 255;
+    }
+    if(H >= 240 && H < 300){
+        red = Math.round(z);    
+        green = 0;
+        blue = 255;
+    }
+    if(H >= 300 && H < 360){
+        red = 255;    
+        green = 0;
+        blue = Math.round(z);
+    }
+        
+    redstring = red.toString(16);
+    if(redstring.length < 2){
+        redstring = "0" + redstring;    
+    }
+    greenstring = green.toString(16);
+    if(greenstring.length < 2){
+        greenstring = "0" + greenstring; 
+    }
+    bluestring = blue.toString(16);
+    if(bluestring.length < 2){
+        bluestring = "0" + bluestring; 
+    }
+    color = "#" + redstring + greenstring + bluestring;
+    colorwheel.push(color);
+    angles.push(0);
+}
+
+
+v = 0;
+vold = 0;
+  
+function setup() {
+
+  createCanvas(squaresize,squaresize);    
+  osc = new p5.SinOsc(); // set frequency and type
+  osc.amp(1.0);
+  osc2 = new p5.SinOsc(); // set frequency and type
+  osc2.amp(1.0);
+  fft = new p5.FFT();
+  // osc.start();
+  //osc2.start();
+  osc.freq(freq);  
+  osc2.freq(freq2); 
+  
+  circle(10,10,50);
+  frameRate(30);
+
+}
+
+
+xgain = 4;
+frameIndex = 0;
+
+function draw(){
+  
+  
+  for(var index = nxy-1;index > 0;index--){
+      xarray[index] = xarray[index-1];  
+      yarray[index] = yarray[index-1];
+
+  }
+  xarray[0] = mouseX;
+  yarray[0] = mouseY;
+  px = 0;
+  qx = 0;
+  for(var i = 0; i < P.length; i++) {
+     px += (xarray[i])*P[i];
+     qx += (xarray[i])*Q[i];
+  }
+  
+  F = sqrt(px*px + qx*qx)/16;
+
+  py = 0;
+  qy = 0;
+  for(var i = 0; i < P.length; i++) {
+     py += (yarray[i])*P[i];
+     qy += (yarray[i])*Q[i];
+  }
+  
+  G = sqrt(py*py + qy*qy)/16;
+  
+  
+  stroke(0);
+
+//  background("#9f8767");
+  clear();
+//  circle(mouseX,mouseY,height/4);
+  noFill();
+
+
+  stroke("blue");
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < P.length; i++) {
+     vertex(width - i*xgain,0.5*height - 0.25*height*P[i]);
+  }
+  endShape();
+
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < P.length; i++) {
+     vertex(0.5*width - 0.25*width*P[i],i*xgain);
+
+  }
+  endShape();
+
+
+  stroke("green");
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < xarray.length; i++) {
+     vertex(width - i*xgain,0.5*height - 0.25*height*Q[i]);
+  }
+  endShape();
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < xarray.length; i++) {
+     vertex(0.5*width - 0.25*width*Q[i],i*xgain);
+  }
+  endShape();
+
+  
+  stroke("red");
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < xarray.length; i++) {
+     vertex(width - i*xgain, yarray[i]);
+  }
+  endShape();
+  beginShape();
+  strokeWeight(4);
+  for(var i = 0; i < xarray.length; i++) {
+     vertex(xarray[i],i*xgain);
+  }
+  endShape();
+     
+//  circle(4*F,4*G,50);
+  
+  stroke("red");
+  force = 20*Math.sqrt(F*F/(width*width) + G*G/(height*height));
+  if(force > 255){
+      force = 255;
+  }
+  
+  
+  fill(255*force,0,0);
+  circle(width- 30,30,50);
+  noFill();
+  
+  gamma = 2;
+  tau = 16;
+  v = vold + ((force*gamma - vold)/tau);
+  vold = v;
+  speed = v;
+  if(v > 1)
+  {
+    speed = 1;
+  }  
+  if(v < 0.1){
+    speed = 0;
+  }  
+  osc.amp(speed);
+  osc2.amp(speed);
+
+  stroke("blue");
+  fill(0,0,255*speed);
+  circle(width - 100,height/2,100);
+
+     stroke("purple");
+  fill("purple");
+  circle(mouseX,mouseY,50);
+
+
+  noFill();
+
+
+
+/*
+    noisepower = 0;
+    for(var index = 0;index < 100;index++){
+        noisepower+=spectrum[index];
+    }
+    noisepower /= 100;
+    noisepower /= 256;
+    noisepower *= 10;
+    
+    document.getElementById("mainimage").style.width =  (squaresize + 2*squaresize*(1 + noisepower + Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";          
+    document.getElementById("mainimage").style.right =  (-squaresize*(1 + noisepower + Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";    
+    document.getElementById("mainimage").style.top =  (-squaresize*(1 + noisepower + Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";            
+  */
+  
+  
+    document.getElementById("mainimage").style.width =  (squaresize*(1 + v)).toString()+ "px";          
+    document.getElementById("mainimage").style.right =  (-squaresize*(0.5*v)).toString()+ "px";    
+    document.getElementById("mainimage").style.top =  (-squaresize*(0.5*v)).toString()+ "px";  
+ 
+
+
+              
+//mainGVM.drawGlyph(pentagram);
+  strokeWeight(6);
+  
+    
+  
+  frameIndex++;
+
+  
+
+}
+
+
+
+
+function mouseClicked() {
+  
+  if(!oscon){
+      osc.start();
+      osc2.start();
+
+  }
+  else{
+      osc.stop();
+      osc2.stop();
+  }
+  oscon = !oscon;
+    
+}
+
+
+
+upuploadImages = [];
+var httpc9 = new XMLHttpRequest();
+    httpc9.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        upuploadImages = JSON.parse(this.responseText);
+        for(var index = upuploadImages.length - 1;index >= 0;index--) {
+            
+//            if(upuploadImages[index].includes("-coth")){
+            
+                var newbox = document.createElement("DIV");
+                newbox.classList.add("imagebox");         
+                
+                var deletespan = document.createElement("SPAN");
+                deletespan.innerHTML = "X";
+                deletespan.classList.add("deletespan");
+                deletespan.onclick = function(){
+                    //delete the parent div of the image
+                    //delete the file
+                    var filename = this.parentElement.getElementsByClassName("filelabel")[0].innerHTML; 
+                    var httpc = new XMLHttpRequest();
+                    var url = "deletefile.php";         
+                    httpc.open("POST", url, true);
+                    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+                    httpc.send("filename=trashmagic/" + filename);//send text to deletefile.php
+                    this.parentElement.parentElement.removeChild(this.parentElement);
+                }
+                
+                newbox.appendChild(deletespan);
+        
+                var newdiv = document.createElement("DIV");
+                newdiv.innerHTML = upuploadImages[index];
+                newdiv.className = "filelabel";
+                newbox.appendChild(newdiv);
+            
+                
+                document.getElementById("feedscroll").appendChild(newbox);
+                var newimg = document.createElement("IMG");
+                newimg.src = "trashmagic/" + upuploadImages[index];
+                newimg.classList.add("uploadimage");
+                newimg.classList.add("button");
+                newbox.appendChild(newimg);
+                
+        //    }
+            
+        }
+    }
+};
+httpc9.open("GET", "dir.php?filename=trashmagic", true);
+httpc9.send();
+
+codesquaresize = 170;
+marginsize = 40;
+fontsize = 12;
+//globalurl = "http://www.trashrobot.org/qrcode.html";
+globalurl = window.location.href;
+qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: globalurl,
+	width: codesquaresize,
+	height: codesquaresize,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+
+</script>
+<style>
+body{
+    overflow:hidden;
+    background-color:#9f8767;    
+}
+main{
+    position:absolute;
+    right:0px;
+    top:0px;
+    /*
+    border:solid;
+    border-width:5px
+    */
+}
+
+
+#feedscroll img{
+    max-width:80%;
+    display:block;
+    margin:auto;
+    margin-top:1em;
+    border:solid;
+}
+
+p{
+    margin:1em 1em 1em 1em;
+    font-size:1.5em;
+    font-family:Comic Sans MS;
+    overflow:scroll;
+}
+h1,h2,h3{
+    font-family:Comic Sans MS;
+    text-align:center;
+        overflow:scroll;
+
+}
+a{
+    color:blue;
+    font-family:Comic Sans MS;
+    font-size:1.5em;    
+    overflow:scroll;
+}
+#feedscroll{
+    position:absolute;
+    left:0px;
+    bottom:0px;
+    top:6em;
+    z-index:-2;
+    overflow:scroll;
+    background-color:#9f8767;    
+    padding:1em 1em 1em 1em;
+}
+.deletespan{
+    color:red;
+    border:solid;
+    border-color:red;
+    border-radius:0.5em;
+    padding: 1em 1em 1em 1em;
+    cursor:pointer;
+}
+.deletespan:hover{
+    background-color:#ff000080;
+}
+.filelabel{
+    display:none;
+}
+.button{
+    cursor:pointer;
+}
+.button:hover{
+    background-color:green;
+}
+.button:active{
+    background-color:yellow;
+}
+.data{
+    display:none;
+}
+#qrcode{
+    border:solid;
+    border-color:white;
+    border-width:24px;
+    background-color:white;
+}
+#mainimage{
+    position:absolute;
+    right:0px;
+    top:0px;
+    z-index:-2;
+}
+#mainbox{
+    position:absolute;
+    right:0px;
+    top:0px;
+    z-index:-1;
+}
+</style>
+</body>
+</html>

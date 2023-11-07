@@ -24,6 +24,7 @@
         "scrolldelete.html",
         "scrolleditor.html",
         "scrollset.html",
+        "simple.html",
         "tarot.js",
         "textconvert.html",
         "trashbook.html",
