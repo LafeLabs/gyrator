@@ -53,15 +53,11 @@
 
 <div id = "feedscroll">
     
-    <h1><a style = "color:blue;text-align:center;font-family:Comic Sans MS;margin:auto" href = "index.html">HOME</a></h1>
-    
-    <h1>Gyrator</h1>
+
+    <h1>Trash Magic Gyrator</h1>
     
     <div id = "qrcode"></div>
 
-<p>
-    Gyrator.  
-</p>    
 
 </div>
 
@@ -236,7 +232,7 @@ vold = 0;
   
 function setup() {
 
-  createCanvas(0.9*squaresize, 0.25*squaresize);    
+  createCanvas(0.9*squaresize, 0.9*squaresize);    
   osc = new p5.SinOsc(); // set frequency and type
   osc.amp(1.0);
   osc2 = new p5.SinOsc(); // set frequency and type
@@ -294,8 +290,9 @@ function draw(){
   nyquistFreq = sampleRate() / 2;
   binFreq = nyquistFreq / (spectrum.length);
   
-  background("#9f8767");
-  circle(mouseX,mouseY,height/4);
+//  background("#9f8767");
+  clear();
+//  circle(mouseX,mouseY,height/4);
   noFill();
 
   beginShape();
@@ -354,11 +351,10 @@ function draw(){
   }
   endShape();
      
-     stroke("purple");
 //  circle(4*F,4*G,50);
   
   stroke("red");
-  force = 10*Math.sqrt(F*F/(width*width) + G*G/(height*height));
+  force = 20*Math.sqrt(F*F/(width*width) + G*G/(height*height));
   if(force > 255){
       force = 255;
   }
@@ -387,26 +383,35 @@ function draw(){
   fill(0,0,255*speed);
   circle(width - 100,height/2,100);
 
+     stroke("purple");
   fill("purple");
-  circle(mouseX,mouseY,height/4);
+  circle(mouseX,mouseY,50);
 
 
   noFill();
 
 
-noisepower = 0;
-for(var index = 0;index < 100;index++){
-    noisepower+=spectrum[index];
-}
-noisepower /= 100;
-noisepower /= 256;
-noisepower *= 10;
 
+/*
+    noisepower = 0;
+    for(var index = 0;index < 100;index++){
+        noisepower+=spectrum[index];
+    }
+    noisepower /= 100;
+    noisepower /= 256;
+    noisepower *= 10;
+    
     document.getElementById("mainimage").style.width =  (squaresize + 2*squaresize*(1 + noisepower + Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";          
     document.getElementById("mainimage").style.right =  (-squaresize*(1 + noisepower + Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";    
     document.getElementById("mainimage").style.top =  (-squaresize*(1 + noisepower + Math.cos(2*Math.PI*frameIndex/T))).toString()+ "px";            
-        
+  */
+  
+  
+    document.getElementById("mainimage").style.width =  (squaresize*(1 + v)).toString()+ "px";          
+    document.getElementById("mainimage").style.right =  (-squaresize*(0.5*v)).toString()+ "px";    
+    document.getElementById("mainimage").style.top =  (-squaresize*(0.5*v)).toString()+ "px";  
  
+
  for(var index = 0;index < nangles;index++){
       strokeWeight(10);
       stroke(colorwheel[index]);
