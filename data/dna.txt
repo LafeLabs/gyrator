@@ -11,6 +11,7 @@
         "gyrator-hex.html",
         "gyrator-octal.html",
         "gyrator-sound.html",
+        "gyratorjson.txt",
         "hypercube.html",
         "iconsets.js",
         "imagefeed.txt",
