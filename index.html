@@ -190,6 +190,13 @@ httpcjson.onreadystatechange = function(){
     if (this.readyState == 4 && this.status == 200) {
         gyratorjson = JSON.parse(this.responseText);
         document.getElementById("mainimage").src = gyratorjson.imageurl;
+        document.getElementById("winput").value = gyratorjson.w;
+        document.getElementById("xinput").value = gyratorjson.x;
+        document.getElementById("yinput").value = gyratorjson.y;
+        document.getElementById("f1input").value = gyratorjson.f1;
+        document.getElementById("f2input").value = gyratorjson.f2;
+        freq = gyratorjson.f1;  
+        freq2 = gyratorjson.f2;  
     };
 };
 httpcjson.open("GET", "fileloader.php?filename=gyratorjson.txt", true);
@@ -222,6 +229,9 @@ function loadimagefeed(){
         newimg.onclick = function() {
             var localsrc = this.src;
             document.getElementById("mainimage").src = localsrc;
+            gyratorjson.imageurl = localsrc;
+            savegyratorjson();
+            
         }
         var newdiv = document.createElement("DIV");
         newbox.appendChild(newdiv);
@@ -312,14 +322,30 @@ oscon = false;
  freq = 110;
  freq2 = 69;
 
-document.getElementById("f1input").value = freq.toString();
-document.getElementById("f2input").value = freq2.toString();
 
 document.getElementById("f1input").onchange = function(){
     freq = parseFloat(this.value);
+    gyratorjson.f1 = freq; 
+    savegyratorjson();
 }
 document.getElementById("f2input").onchange = function(){
     freq2 = parseFloat(this.value);
+    gyratorjson.f2 = freq2; 
+    savegyratorjson();
+    
+}
+
+document.getElementById("winput").onchange = function(){
+    gyratorjson.w = parseFloat(this.value);
+    savegyratorjson();
+}
+document.getElementById("xinput").onchange = function(){
+    gyratorjson.x = parseFloat(this.value);
+    savegyratorjson();
+}
+document.getElementById("yinput").onchange = function(){
+    gyratorjson.y = parseFloat(this.value);
+    savegyratorjson();
 }
   
 nxy = 16;
@@ -526,9 +552,9 @@ function draw(){
 
 
 
-    document.getElementById("mainimage").style.width =  (squaresize*(1 + v)).toString()+ "px";          
-    document.getElementById("mainimage").style.right =  (-squaresize*(0.5*v)).toString()+ "px";    
-    document.getElementById("mainimage").style.top =  (-squaresize*(0.5*v)).toString()+ "px";  
+    document.getElementById("mainimage").style.width =  ((gyratorjson.w/100)*squaresize*(1 + v)).toString()+ "px";          
+    document.getElementById("mainimage").style.right =  (-squaresize*(gyratorjson.x/100) - (gyratorjson.w/100)*squaresize*(0.5*v)).toString()+ "px";    
+    document.getElementById("mainimage").style.top =  (-squaresize*(gyratorjson.y/100)-(gyratorjson.w/100)*squaresize*(0.5*v)).toString()+ "px";  
  
 //mainGVM.drawGlyph(pentagram);
   strokeWeight(6);
