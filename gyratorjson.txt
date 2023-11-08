@@ -4,5 +4,5 @@
   "y": -30,
   "imageurl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/M101_hires_STScI-PRC2006-10a.jpg/2560px-M101_hires_STScI-PRC2006-10a.jpg",
   "f1": 66.6,
-  "f2": 42
+  "f2": 90
 }

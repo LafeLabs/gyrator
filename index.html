@@ -58,10 +58,14 @@
             <h1>Trash Magic Gyrator</h1>
     
     <p>
-        Tap to start/stop oscillators.  X and y motion of pointer or touch on screen rings up gyrators on x and y axes.  Connect machine to speaker with heavy bass.
+        Tap to start/stop oscillators.  X and y motion of pointer or touch on screen rings up gyrators on x and y axes.  Connect machine to speaker with heavy bass.  Cycle mode between "EXCITE MODE", "STEADY MODE" and "OSSCILATE MODE".  Enter numbers in table to set the image offset in percent, image scaling in percent, and base frequency in Hz.
     </p>
     
             <table>
+                <tr>
+                    <td id = "modebutton">MODE SWITCH</td>
+                    <td id ="modeindicator">EXCITE MODE</td>
+                </tr>
                 <tr>
                     <td>New Image URL:</td>
                     <td><input id = "imageurlinput"/></td>
@@ -147,6 +151,25 @@ $$
 
 <script>
 
+
+oscmode = 0;//0 is stimulation, 1 is steady, 2 is osc
+
+document.getElementById("modebutton").onclick = function(){
+    oscmode++;
+    if(oscmode > 2){
+        oscmode = 0;
+    }
+    if(oscmode == 0){
+        document.getElementById("modeindicator").innerHTML = "EXCITE MODE";
+    }
+    if(oscmode == 1){
+        document.getElementById("modeindicator").innerHTML = "STEADY MODE";
+    }
+    if(oscmode == 2){
+        document.getElementById("modeindicator").innerHTML = "OSCILLATE MODE";
+    }
+    
+}
 
 gyratorjson0 = {
   "w":100,
@@ -517,16 +540,52 @@ function draw(){
   vyold = vy;
 
   speed = Math.sqrt(vx*vx + vy*vy);
-  if(v > 1)
-  {
-    speed = 1;
-  }  
-  if(v < 0.01){
-    speed = 0;
-  }  
+
+  if(oscmode == 1){
+      speed = 1;
+      if(xarray[0] > 0){
+          vx = xarray[0]/width;
+      }
+      else{
+          vx = 0;
+      }
+      if(yarray[0] > 0){
+          vy = yarray[0]/width;
+      }
+      else{
+          vy = 0;
+      }
+  }
+  if(oscmode == 2){
+      speed = 1;
+      if(xarray[0] > 0){
+          vx = (1 + Math.cos(2*Math.PI*frameIndex/10))*xarray[0]/width;
+      }
+      else{
+          vx = 0;
+      }
+      if(yarray[0] > 0){
+          vy = (1 + Math.cos(2*Math.PI*frameIndex/10))*yarray[0]/width;
+      }
+      else{
+          vy = 0;
+      }
+  }
+  v  = Math.sqrt(vx*vx + vy*vy);
+
+    if(oscmode ==0){
+       if(v > 1){
+          speed = 1;
+       }  
+       if(v < 0.01){
+          speed = 0;
+       }  
+    }
+  if(oscmode == 2){
+      v = 0;
+  }
   osc.amp(speed);
   osc2.amp(speed);
-  
   osc.freq(freq*(1 + vx));  
   osc2.freq(freq2*(1 + vy)); 
  
@@ -539,6 +598,7 @@ function draw(){
   textSize(50);
   fill("red");
   text('F',width - 120,100);
+
 
   textSize(50);
   text('X',0.5*width ,100);
@@ -570,7 +630,15 @@ function draw(){
   fill("#ff2cb4");
   circle(0.5*width*(1 + Math.sin(2*Math.PI*v)),0.5*height*(1 - Math.cos(2*Math.PI*v)),25);  
  
-  noFill();
+   textSize(25);
+  stroke(0);
+  fill(0);
+  strokeWeight(1);
+
+   text("f1 = " + (Math.round(freq*(1 + vx))).toString() + " Hz",50,height - 50);
+   text("f2 = " + (Math.round(freq2*(1 + vy))).toString() + " Hz",0.8*width,height - 50);
+ 
+   noFill();
   circle(width/2,height/2,width);  
   
   frameIndex++;
@@ -683,6 +751,21 @@ input{
         background-color:black;    
         color:#00ff00;
         border-color:#00ff00;
+}
+#modebutton:hover{
+    background-color:#00ff0080;
+}
+#modebutton:active{
+    background-color:#FFFFCC80;
+}
+
+#modebutton{
+    border:solid;
+    border-color:#00ff00;
+    color:#00ff00;
+    cursor:pointer;
+    border-radius:10px;
+    border-width:5px;
 }
 #submitinput{
    cursor:pointer;    
